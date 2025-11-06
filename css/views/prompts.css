@@ -1,0 +1,25 @@
+/* Prompts View Styles */
+
+.prompts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-lg);
+}
+
+.prompt-category {
+    margin-bottom: var(--space-xl);
+}
+
+.prompt-category-title {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-lg);
+    color: var(--color-primary);
+}
+
+.sensory-detail-item {
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-md);
+    border: var(--border-width) solid var(--color-border);
+}

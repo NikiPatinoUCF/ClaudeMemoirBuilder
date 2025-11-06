@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tell Your Story: A Crafted Memoir - Interactive memoir writing and visualization tool">
+    <title>Tell Your Story: A Crafted Memoir</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/views/memory-map.css">
+    <link rel="stylesheet" href="css/views/timeline.css">
+    <link rel="stylesheet" href="css/views/genre-filter.css">
+    <link rel="stylesheet" href="css/views/prompts.css">
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="app-title">Tell Your Story</h1>
+            <p class="app-subtitle">A Crafted Memoir</p>
+        </div>
+
+        <div class="project-selector">
+            <select id="projectSelect" class="project-select">
+                <option value="">Select Project...</option>
+            </select>
+            <button id="newProjectBtn" class="btn btn-primary">New Project</button>
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="#" data-view="memories" class="nav-link active">
+                <span class="nav-icon">📝</span>
+                <span class="nav-label">Memories</span>
+            </a></li>
+            <li><a href="#" data-view="memory-map" class="nav-link">
+                <span class="nav-icon">🗺️</span>
+                <span class="nav-label">Memory Map</span>
+            </a></li>
+            <li><a href="#" data-view="timeline" class="nav-link">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Timeline</span>
+            </a></li>
+            <li><a href="#" data-view="genre-filter" class="nav-link">
+                <span class="nav-icon">🎭</span>
+                <span class="nav-label">Genre Filters</span>
+            </a></li>
+            <li><a href="#" data-view="prompts" class="nav-link">
+                <span class="nav-icon">✨</span>
+                <span class="nav-label">Scene Prompts</span>
+            </a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <button id="exportBtn" class="btn btn-secondary">Export Project</button>
+            <button id="importBtn" class="btn btn-secondary">Import Project</button>
+            <button id="helpBtn" class="btn btn-link">Help</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="mainContent" class="main-content">
+        <!-- Welcome Screen (shown when no project selected) -->
+        <div id="welcomeView" class="view active">
+            <div class="welcome-container">
+                <h2 class="welcome-title">Welcome to Tell Your Story</h2>
+                <p class="welcome-description">
+                    An interactive tool to help you discover and shape your memoir narrative
+                    across multiple formats and genres.
+                </p>
+                <div class="welcome-actions">
+                    <button id="tryDemoBtn" class="btn btn-large btn-primary">Try Demo</button>
+                    <button id="createProjectBtn" class="btn btn-large btn-secondary">Create New Project</button>
+                    <button id="importProjectBtn" class="btn btn-large btn-secondary">Import Project</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memories View -->
+        <div id="memoriesView" class="view">
+            <div class="view-header">
+                <h2>Your Memories</h2>
+                <button id="addMemoryBtn" class="btn btn-primary">Add Memory</button>
+            </div>
+            <div id="memoriesList" class="memories-list">
+                <!-- Memory cards will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Memory Map View -->
+        <div id="memoryMapView" class="view">
+            <div class="view-header">
+                <h2>Memory Map</h2>
+                <div class="view-controls">
+                    <button id="resetZoomBtn" class="btn btn-small">Reset View</button>
+                    <button id="toggleConnectionsBtn" class="btn btn-small">Toggle Connections</button>
+                </div>
+            </div>
+            <div id="memoryMapCanvas" class="canvas-container">
+                <!-- P5.js canvas will be inserted here -->
+            </div>
+            <div class="map-legend">
+                <h3>Legend</h3>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: var(--emotion-very-negative)"></span>
+                    <span>Very Negative</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: var(--emotion-negative)"></span>
+                    <span>Negative</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: var(--emotion-neutral)"></span>
+                    <span>Neutral</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: var(--emotion-positive)"></span>
+                    <span>Positive</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: var(--emotion-very-positive)"></span>
+                    <span>Very Positive</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline View -->
+        <div id="timelineView" class="view">
+            <div class="view-header">
+                <h2>Timeline</h2>
+                <div class="view-controls">
+                    <label>
+                        <input type="checkbox" id="showEmotionalArc"> Show Emotional Arc
+                    </label>
+                </div>
+            </div>
+            <div id="timelineCanvas" class="canvas-container">
+                <!-- Timeline visualization -->
+            </div>
+        </div>
+
+        <!-- Genre Filter View -->
+        <div id="genreFilterView" class="view">
+            <div class="view-header">
+                <h2>Genre Filters</h2>
+                <p class="view-description">See how your memoir could be structured through different genre conventions.</p>
+            </div>
+            <div class="genre-selector">
+                <button class="genre-btn" data-genre="hero-journey">Hero's Journey</button>
+                <button class="genre-btn" data-genre="sci-fi">Sci-Fi Memoir</button>
+                <button class="genre-btn" data-genre="literary-fiction">Literary Fiction</button>
+            </div>
+            <div id="genreContent" class="genre-content">
+                <p class="empty-state">Select a genre to see how your memoir fits its conventions.</p>
+            </div>
+        </div>
+
+        <!-- Prompts View -->
+        <div id="promptsView" class="view">
+            <div class="view-header">
+                <h2>Scene Crafting Prompts</h2>
+                <div class="view-controls">
+                    <select id="genreFilterSelect" class="genre-filter-select">
+                        <option value="">All Genres</option>
+                        <option value="hero-journey">Hero's Journey</option>
+                        <option value="sci-fi">Sci-Fi Memoir</option>
+                        <option value="literary-fiction">Literary Fiction</option>
+                    </select>
+                </div>
+            </div>
+            <div id="promptsContent" class="prompts-content">
+                <!-- Prompts will be inserted here -->
+            </div>
+            <div class="sensory-generator">
+                <h3>Sensory Detail Generator</h3>
+                <div class="sensory-categories">
+                    <button class="sensory-btn" data-sense="sights">Sights</button>
+                    <button class="sensory-btn" data-sense="sounds">Sounds</button>
+                    <button class="sensory-btn" data-sense="smells">Smells</button>
+                    <button class="sensory-btn" data-sense="textures">Textures</button>
+                    <button class="sensory-btn" data-sense="tastes">Tastes</button>
+                </div>
+                <div id="sensoryOutput" class="sensory-output"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- New Project Modal -->
+    <div id="newProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Project</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label for="projectTitle">Project Title:</label>
+                <input type="text" id="projectTitle" class="input" placeholder="My Memoir" required>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelProjectBtn" class="btn btn-secondary">Cancel</button>
+                <button id="createProjectConfirmBtn" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Input Modal -->
+    <div id="memoryModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="memoryModalTitle">Add Memory</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="memoryForm">
+                    <div class="form-group">
+                        <label for="memoryTitle">Title:</label>
+                        <input type="text" id="memoryTitle" class="input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memoryNarrative">Narrative:</label>
+                        <textarea id="memoryNarrative" class="textarea" rows="6"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memoryYear">Year:</label>
+                            <input type="number" id="memoryYear" class="input">
+                        </div>
+                        <div class="form-group">
+                            <label for="memorySeason">Season/Month:</label>
+                            <input type="text" id="memorySeason" class="input" placeholder="e.g., Summer, June">
+                        </div>
+                        <div class="form-group">
+                            <label for="memoryPrecision">Precision:</label>
+                            <select id="memoryPrecision" class="input">
+                                <option value="approximate">Approximate</option>
+                                <option value="exact">Exact</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emotionalTone">Emotional Tone:</label>
+                        <input type="range" id="emotionalTone" min="-5" max="5" value="0" step="1">
+                        <div class="tone-labels">
+                            <span>Very Negative</span>
+                            <span id="toneValue">Neutral (0)</span>
+                            <span>Very Positive</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sensory Details:</label>
+                        <div class="sensory-inputs">
+                            <input type="text" id="sights" class="input" placeholder="Sights">
+                            <input type="text" id="sounds" class="input" placeholder="Sounds">
+                            <input type="text" id="smells" class="input" placeholder="Smells">
+                            <input type="text" id="textures" class="input" placeholder="Textures">
+                            <input type="text" id="tastes" class="input" placeholder="Tastes">
+                        </div>
+                        <small>Separate multiple items with commas</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memoryThemes">Themes/Tags:</label>
+                        <input type="text" id="memoryThemes" class="input" placeholder="freedom, childhood, loss">
+                        <small>Separate tags with commas</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memoryCharacters">Characters:</label>
+                        <input type="text" id="memoryCharacters" class="input" placeholder="Mom, Jake, Uncle Robert">
+                        <small>Separate names with commas</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memoryLocation">Location:</label>
+                        <input type="text" id="memoryLocation" class="input" placeholder="Family farm, rural Iowa">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memoryNotes">Notes:</label>
+                        <textarea id="memoryNotes" class="textarea" rows="3" placeholder="Additional context..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelMemoryBtn" class="btn btn-secondary">Cancel</button>
+                <button id="saveMemoryBtn" class="btn btn-primary">Save Memory</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+    <!-- Notifications -->
+    <div id="notifications" class="notifications"></div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+    <!-- Application Scripts -->
+    <script src="js/utils/constants.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/demo-data.js"></script>
+    <script src="js/data/memory-model.js"></script>
+    <script src="js/data/project-manager.js"></script>
+    <script src="js/data/export-import.js"></script>
+    <script src="js/ui/notifications.js"></script>
+    <script src="js/ui/modals.js"></script>
+    <script src="js/ui/navigation.js"></script>
+    <script src="js/analysis/theme-analyzer.js"></script>
+    <script src="js/analysis/emotional-arc.js"></script>
+    <script src="js/views/memory-map.js"></script>
+    <script src="js/views/timeline.js"></script>
+    <script src="js/views/genre-filter.js"></script>
+    <script src="js/views/scene-prompts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

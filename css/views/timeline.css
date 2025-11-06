@@ -1,0 +1,34 @@
+/* Timeline View Styles */
+
+#timelineCanvas {
+    position: relative;
+}
+
+.timeline-item {
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.timeline-item:hover {
+    transform: scale(1.05);
+}
+
+.timeline-marker {
+    position: absolute;
+    background-color: var(--color-white);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.timeline-label {
+    position: absolute;
+    background-color: var(--color-white);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-sm);
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+}

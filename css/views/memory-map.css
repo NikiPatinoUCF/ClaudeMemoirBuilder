@@ -1,0 +1,32 @@
+/* Memory Map View Styles */
+
+#memoryMapCanvas {
+    cursor: grab;
+}
+
+#memoryMapCanvas:active {
+    cursor: grabbing;
+}
+
+.memory-node {
+    cursor: pointer;
+}
+
+.memory-connection {
+    pointer-events: none;
+}
+
+/* Map controls */
+.map-controls {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.map-controls .btn {
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-md);
+}
