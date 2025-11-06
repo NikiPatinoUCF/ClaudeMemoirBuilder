@@ -185,4 +185,4 @@ class TimelineView {
 }
 
 // Global instance
-const timelineView = new TimelineView();
+window.timelineView = new TimelineView();

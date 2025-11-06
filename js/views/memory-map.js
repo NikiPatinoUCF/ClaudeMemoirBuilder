@@ -203,4 +203,4 @@ class MemoryMapView {
 }
 
 // Global instance
-const memoryMapView = new MemoryMapView();
+window.memoryMapView = new MemoryMapView();

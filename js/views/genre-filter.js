@@ -146,4 +146,4 @@ class GenreFilterView {
 }
 
 // Global instance
-const genreFilterView = new GenreFilterView();
+window.genreFilterView = new GenreFilterView();

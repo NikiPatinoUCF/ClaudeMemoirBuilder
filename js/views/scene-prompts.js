@@ -93,4 +93,4 @@ class ScenePromptsView {
 }
 
 // Global instance
-const promptsView = new ScenePromptsView();
+window.promptsView = new ScenePromptsView();
